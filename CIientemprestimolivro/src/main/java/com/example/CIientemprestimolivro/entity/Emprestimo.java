@@ -1,9 +1,9 @@
 package com.example.CIientemprestimolivro.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.CIientemprestimolivro.dto.EmprestimoDTO;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,8 +11,11 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
 public class Emprestimo implements Serializable {
@@ -21,14 +24,19 @@ public class Emprestimo implements Serializable {
     private Long id;
     private LocalDateTime dataInicial;
     private LocalDateTime dataFinal;
-    private ArrayList<Livro> livros = new ArrayList<Livro>();
+    private Set<Livro> livros;
+
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id")
+    @JsonManagedReference
     private Cliente cliente;
 
-    public Emprestimo(Long id, LocalDateTime dataInicial, LocalDateTime dataFinal) {
-        this.id = id;
-        this.dataInicial = LocalDateTime.now();  // Atribuindo o valor da data atual
-        this.dataFinal = dataInicial.plusWeeks(2); //Soma 2 semana a partir da data inicial
-    }
-
+    @ManyToMany
+    @JoinTable (
+            name = "emprestimo_livro",
+            joinColumns = @JoinColumn(name = "emprestimo_id"),
+            inverseJoinColumns = @JoinColumn(name = "livro_id")
+    )
 
 }
+

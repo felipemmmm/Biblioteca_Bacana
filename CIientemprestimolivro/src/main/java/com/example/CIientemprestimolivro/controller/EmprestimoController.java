@@ -15,7 +15,6 @@ public class EmprestimoController {
 
     //Comunicação entre controller e service
     @Autowired
-    private
 
 
 

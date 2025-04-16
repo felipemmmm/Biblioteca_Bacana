@@ -23,7 +23,7 @@ public class Cliente implements Serializable {
    private String nome;
    private String sobrenome;
    @Column(unique = true) // Garante que o CPF seja único no banco
-   private int cpf;
+   private String cpf;
 
 
 }
